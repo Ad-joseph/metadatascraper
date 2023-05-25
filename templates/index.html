@@ -2,46 +2,42 @@
 <html>
 <head>
     <title>Web Scraper</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#scrape-form').submit(function(event) {
+                event.preventDefault();
+                var urls = $('#urls').val().split('\n').filter(Boolean);
+                $.ajax({
+                    type: 'POST',
+                    url: '/scrape',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ 'urls': urls }),
+                    success: function(data) {
+                        var result = '';
+                        for (var i = 0; i < data.length; i++) {
+                            result += '<p>' + JSON.stringify(data[i]) + '</p>';
+                        }
+                        $('#scrape-result').html(result);
+                        $('#download-button').show();
+                    }
+                });
+            });
+
+            $('#download-button').click(function() {
+                window.location.href = '/download';
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>Web Scraper</h1>
-    <div id="inputArea">
-        <input type="text" class="url-input" placeholder="Enter a URL" /><br/>
-    </div>
-    <button id="addUrl">Add another URL</button>
-    <button id="scrape">Scrape</button>
-    <div id="results"></div>
-
-    <script>
-    $(function() {
-        $('#addUrl').click(function() {
-            $('#inputArea').append('<input type="text" class="url-input" placeholder="Enter a URL" /><br/>');
-        });
-        
-        $('#scrape').click(function() {
-            let urls = [];
-            $('.url-input').each(function() {
-                let url = $(this).val();
-                if(url) {
-                    urls.push(url);
-                }
-            });
-            
-            $.ajax({
-                url: '/scrape',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ urls: urls }),
-                success: function(data) {
-                    $('#results').html(JSON.stringify(data, null, 2));
-                },
-                error: function(err) {
-                    alert('An error occurred.');
-                }
-            });
-        });
-    });
-    </script>
+    <form id="scrape-form">
+        <textarea id="urls" rows="4" cols="50" placeholder="Enter URLs"></textarea>
+        <br>
+        <button type="submit">Scrape</button>
+    </form>
+    <div id="scrape-result"></div>
+    <button id="download-button" style="display: none;">Download</button>
 </body>
 </html>
