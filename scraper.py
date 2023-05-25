@@ -20,11 +20,11 @@ def scrape(url):
         meta_tags = soup.find_all('meta', attrs={'name': key})
         values = [tag['content'] for tag in meta_tags]
         if key == 'citation_author':
-            # Format author names with a comma after the full author's name
+            # Format author names with a comma between last name and first name
             formatted_authors = []
             for value in values:
                 authors = value.split(', ')
-                formatted_authors.append(', '.join(authors[::-1]))
+                formatted_authors.append(' '.join(authors[::-1]))
             metadata[key] = ', '.join(formatted_authors)
         else:
             metadata[key] = ', '.join(values)
@@ -44,6 +44,4 @@ def save_to_csv(data):
         writer.writeheader()
 
         for item in data:
-            # Update the author field to remove extra commas
-            item['citation_author'] = item['citation_author'].replace(', ,', ',')
             writer.writerow(item)
