@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Scraper</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Web Scraper</h1>
+    <div id="inputArea">
+        <input type="text" class="url-input" placeholder="Enter a URL" /><br/>
+    </div>
+    <button id="addUrl">Add another URL</button>
+    <button id="scrape">Scrape</button>
+    <div id="results"></div>
+
+    <script>
+    $(function() {
+        $('#addUrl').click(function() {
+            $('#inputArea').append('<input type="text" class="url-input" placeholder="Enter a URL" /><br/>');
+        });
+        
+        $('#scrape').click(function() {
+            let urls = [];
+            $('.url-input').each(function() {
+                let url = $(this).val();
+                if(url) {
+                    urls.push(url);
+                }
+            });
+            
+            $.ajax({
+                url: '/scrape',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ urls: urls }),
+                success: function(data) {
+                    $('#results').html(JSON.stringify(data, null, 2));
+                },
+                error: function(err) {
+                    alert('An error occurred.');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
