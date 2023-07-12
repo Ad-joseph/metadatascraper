@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import time
 
 def get_journal_urls(starting_url):
     headers = {
@@ -23,7 +24,6 @@ def get_journal_urls(starting_url):
         journal_urls.append(journal_url)
 
     return journal_urls
-
 
 
 def scrape(url):
@@ -72,5 +72,6 @@ def scrape_all(urls):
     for url in urls:
         metadata = scrape(url)
         scraped_data.append(metadata)
+        time.sleep(1)  # Pause for 1 second between requests
     save_to_csv(scraped_data)
     return scraped_data
