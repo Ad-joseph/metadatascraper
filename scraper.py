@@ -19,10 +19,11 @@ def get_journal_urls(starting_url):
     for element in journal_elements:
         journal_url = element['href']
         if journal_url.startswith("/ced"):
-            journal_url = starting_url.rstrip("/ced") + journal_url
+            journal_url = starting_url.rstrip("/") + journal_url
         journal_urls.append(journal_url)
 
     return journal_urls
+
 
 
 def scrape(url):
