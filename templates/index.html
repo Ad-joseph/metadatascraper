@@ -20,6 +20,14 @@
                         }
                         $('#scrape-result').html(result);
                         $('#download-button').show();
+
+                        // Adding code to print out the list of URLs
+                        var urlList = '<p><strong>URLs scraped:</strong></p><ul>';
+                        for (var j = 0; j < urls.length; j++) {
+                            urlList += '<li>' + urls[j] + '</li>';
+                        }
+                        urlList += '</ul>';
+                        $('#url-list').html(urlList);
                     }
                 });
             });
@@ -38,7 +46,8 @@
         <button type="submit">Scrape</button>
     </form>
     <div id="scrape-result"></div>
+    <div id="url-list"></div> <!-- Adding div for displaying the URL list -->
     <button id="download-button" style="display: none;">Download</button>
-	<a href="{{ url_for('home', embed='true') }}">Embed</a>
+    <a href="{{ url_for('home', embed='true') }}">Embed</a>
 </body>
 </html>
