@@ -14,7 +14,7 @@ def scrape(url):
     metadata = {}
 
     tag_mappings = {
-        'citation_title': ['og:citation_title', 'title'],
+        'citation_title': ['og:citation_title', 'og:title', 'title'],
         'citation_author': ['og:citation_author'],
         'citation_journal_title': ['og:citation_journal_title'],
         'citation_volume': ['og:citation_volume'],
