@@ -72,6 +72,6 @@ def scrape_all(urls):
     for url in urls:
         metadata = scrape(url)
         scraped_data.append(metadata)
-        time.sleep(1)  # Pause for 1 second between requests
+        time.sleep(5)  # Pause for 1 second between requests
     save_to_csv(scraped_data)
     return scraped_data
